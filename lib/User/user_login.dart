@@ -55,7 +55,8 @@ class _UserLoginState extends State<UserLogin> {
               SizedBox(
                 height: 12,
               ),
-              TextFormField(
+              TextField(
+                obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: "Enter Your Password",
