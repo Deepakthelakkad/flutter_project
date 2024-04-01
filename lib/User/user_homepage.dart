@@ -1,5 +1,7 @@
 import 'package:demo/User/artist_view.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserHomepage extends StatefulWidget {
   const UserHomepage({super.key});
@@ -9,68 +11,109 @@ class UserHomepage extends StatefulWidget {
 }
 
 class _UserHomepageState extends State<UserHomepage> {
-  var feature = "a";
+  int _selectedIndex = 1;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  var feature = "arun";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: GestureDetector(
-          child: Icon(Icons.arrow_back_ios),
+          // child: Icon(CupertinoIcons.back,color: Color.fromRGBO(194, 74, 107, 1),),
         ),
-        title: Container(
-          child: Center(
-              child: Text(
-            "Artists",
-            style:
-                TextStyle(fontSize: 25, color: Color.fromRGBO(194, 74, 107, 1)),
-          )),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 90),
+          child: Container(
+            child: Text(
+              "Artists",
+              style:
+              TextStyle(fontSize: 25, color: Color.fromRGBO(194, 74, 107, 1)),
+            ),
+          ),
         ),
       ),
       body: Container(
         child: ListView.builder(
             itemCount: feature.length,
             itemBuilder: (context, index) {
-              return Card(
-                elevation: 1,
-                child: ListTile(
-                  leading: Container(
-                    child: ClipOval(
-                      child: Image.asset(
-                        "assets/AMLU.png",
-                        height: 50,
-                        width: 50,
-                        fit: BoxFit.cover,
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                child: Card(
+                  elevation: 0,
+                  child: ListTile(
+                    leading: Container(
+                      child: ClipOval(
+                        child: Image.asset(
+                          "assets/AMLU.png",
+                          height: 50,
+                          width: 50,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  trailing: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ArtistView()));
-                    },
-                    child: Text("Check"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Set the background color
-                      foregroundColor:
-                          Colors.white, // Set the text color (foreground)
-                    ),
-                  ),
-                  title: Text("Amaleswar"),
-                  subtitle: Row(
-                    children: [
-                      Text("Dancer"),
-                      SizedBox(
-                        width: 10,
+                    trailing: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ArtistView()));
+                      },
+                      child: Container(
+                        height: 28,
+                        width: 54,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color.fromRGBO(47, 128, 237, 1),),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 5, 5, 5),
+                          child: Text("Check",
+                              style: GoogleFonts.ubuntu(color: Colors.white)),
+                        ),
                       ),
-                      Text("3y exp"),
-                    ],
+                    ),
+                    title: Text("Amaleswar"),
+                    subtitle: Row(
+                      children: [
+                        Text("Dancer"),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text("3y exp"),
+                      ],
+                    ),
                   ),
                 ),
               );
             }),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                CupertinoIcons.ellipses_bubble_fill,
+                size: 30,
+              ),
+              label: _selectedIndex == 0 ? 'message' : ''),
+          BottomNavigationBarItem(
+              icon: CircleAvatar(
+                child: Icon(CupertinoIcons.house, color: Colors.white,),
+                radius: 20,
+                backgroundColor: Color.fromRGBO(191, 68, 116, 1),),
+              label: _selectedIndex == 1 ? 'Home' : ''),
+          BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.person_fill, size: 30),
+              label: _selectedIndex == 2 ? 'Profile' : ''),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color.fromRGBO(191, 68, 116, 1),
+        unselectedItemColor: Color.fromRGBO(143, 154, 163, 1),
+        selectedLabelStyle: TextStyle(color: Color.fromRGBO(191, 68, 116, 1)),
+        onTap: _onItemTapped,
       ),
     );
   }
